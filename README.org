@@ -54,6 +54,7 @@ A naive attempt would be to set the value of the first column equal to number of
 
 And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding ~|--~ to the second line and hitting the ~tab~ key. 
 
+#+begin_src org
 |   | BOOKS             | READ? |
 |---+-------------------+-------|
 | 2 | IT                | yes   |
@@ -62,9 +63,11 @@ And while that works, that isn't really want we want. Having the first index sta
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
 #+tblfm: $1=@#
+#+end_src
 
-This is looking better! The formula is smart enough to know that we don't want to to include something before the separator. However, it still isn't correct. Even though it didn't show the first value, it still incremented it, which leaves our starting value at 2. We can do better. Modify the formula to subtract one from each value to produce the result we want.
+This is looking better! The formula is smart enough to know that we don't want to include something before the separator. However, it still isn't correct. Even though it didn't show the first value, it still incremented it, which leaves our starting value at 2. We can do better. Modify the formula to subtract one from each value to produce the result we want.
 
+#+begin_src org
 |   | BOOKS             | READ? |
 |---+-------------------+-------|
 | 1 | IT                | yes   |
@@ -73,13 +76,196 @@ This is looking better! The formula is smart enough to know that we don't want t
 | 4 | Salem's Lot       | no    |
 | 5 | Leaves of grass   | no    |
 #+tblfm: $1=@#-1
+#+end_src
 
+** Sorting By Column
+It is often very useful to sort a table by a column. Take the table we have below. 
 
-** Sorting By Multiple Columns
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
+|----------------+------+---------------+---------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |
+| Josh Allen     | 63.6 |          3731 |           531 |
+| Jayden Daniels | 69.4 |          3530 |           864 |
+#+end_src
+
+Let's start with something simple such as sorting the players by name. Navigate to the first column and put your cursor on any one of the four lines containing a player name. If your cursor is on the horizontal line or the column title it won't sort. In this case I'm going to put my cursor on the record with ~Lamar Jackson~ and then type ~C-c ^~ to invoke ~org-sort~. In the mini buffer you will see this message:
+
+~Sort Table: [a]lphabetic, [n]umeric, [t]ime, [f]unc. A/N/TF means reversed:~
+
+Which gives you the sorting options. Since we want the names alphabetized type ~a~ and it produces this:
+
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
+|----------------+------+---------------+---------------|
+| Jayden Daniels | 69.4 |          3530 |           864 |
+| Joe Burrow     | 69.8 |          4641 |           202 |
+| Josh Allen     | 63.6 |          3731 |           531 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |
+#+end_src
+
+Which is what we wanted! How about if we wanted to sort them by ~PASSING YARDS~? Then we do the same thing only we execute ~org-sort~ from the 3rd column and select ~N~ to produce this:
+
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
+|----------------+------+---------------+---------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |
+| Josh Allen     | 63.6 |          3731 |           531 |
+| Jayden Daniels | 69.4 |          3530 |           864 |
+#+end_src
+
+The order is reversed because we want the most yards as the first record.
 
 ** Summing a Column
+You have started a side business going to estate sales, purchasing old items cheaply, and then reselling them for a profit. To keep track of your business you have started entering everything in a handy org table. Now you have sold five items and you want to see how your balance sheet looks. So, let's start by doing a vector sum on your costs to see how much you spent. Here is the obvious way to do do this:
+
+#+begin_src org
+| ITEM   | COST | PRICE |
+|--------+------+-------|
+| Bike   |   50 |   100 |
+| Sword  |   20 |    35 |
+| Drill  |   30 |    60 |
+| Cooler |   10 |    70 |
+| TV     |   50 |    40 |
+|--------+------+-------|
+|        |  160 |       |
+,#+TBLFM: @7$2=vsum(@2..@6)
+#+end_src
+
+This works as a first attempt, but it isn't ideal. What if we add another item? That presents a problem. If you buy a blender for 25 and sell it for 45, then execute the same formula, you get this:
+
+#+begin_src org
+| ITEM    | COST | PRICE |
+|---------+------+-------|
+| Bike    |   50 |   100 |
+| Sword   |   20 |    35 |
+| Drill   |   30 |    60 |
+| Cooler  |   10 |    70 |
+| TV      |   50 |    40 |
+| Blender |  160 |    45 |
+|---------+------+-------|
+|         |      |       |
+,#+TBLFM: @7$2=vsum(@2..@6)
+#+end_src
+
+The formula still wants to write the value into the 7th row, however the 7th row is no longer the last row. Thus the cost value was overwritten. This is not what we want. We need a way to tell the formula to always write to the last line, regardless of how many lines are in the table. What we need is the ~@>~ operator, that signifies the last row of the table.
+
+#+begin_src org
+| ITEM    | COST | PRICE |
+|---------+------+-------|
+| Bike    |   50 |   100 |
+| Sword   |   20 |    35 |
+| Drill   |   30 |    60 |
+| Cooler  |   10 |    70 |
+| TV      |   50 |    40 |
+| Blender |   25 |    45 |
+| Boots   |   10 |    20 |
+|---------+------+-------|
+|         |  160 |       |
+#+TBLFM: @>$2=vsum(@2..@6)
+#+end_src
+
+The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with ~@2..@6~ which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be ~@-1~ so that the correct values are used. Now we have a much more usable formula for calculating costs. What we need now is a formula for summing up the ~PRICE~ column. We could just create another formula line, increment a column value, and then execute both lines, but there is a cleaner solution. Let's tell org mode to sum up all the columns!
+
+
+#+begin_src org
+| ITEM    | COST | PRICE |
+|---------+------+-------|
+| Bike    |   50 |   100 |
+| Sword   |   20 |    35 |
+| Drill   |   30 |    60 |
+| Cooler  |   10 |    70 |
+| TV      |   50 |    40 |
+| Blender |   25 |    45 |
+| Boots   |   20 |    20 |
+|---------+------+-------|
+|         |  205 |       |
+#+TBLFM: @>$2=vsum(@2..@-1)
+#+end_src
+
+By using the ~@>~ operator we can tell org mode to reference the entire last row. Let's see how this works.
+
+#+begin_src org
+| ITEM                                                 | COST | PRICE |
+|------------------------------------------------------+------+-------|
+| Bike                                                 |   50 |   100 |
+| Sword                                                |   20 |    35 |
+| Drill                                                |   30 |    60 |
+| Cooler                                               |   10 |    70 |
+| TV                                                   |   50 |    40 |
+| Blender                                              |   25 |    45 |
+| Boots                                                |   20 |    20 |
+|------------------------------------------------------+------+-------|
+| Bike + Sword + Drill + Cooler + TV + Blender + Boots |  205 |   370 |
+#+TBLFM: @>=vsum(@2..@-1)
+#+end_src
+
+Hmmmm. This is not exactly what we want. Unintended consequences are the hallmark of org tables, thankfully this is an easy fix. By restricting the output to the range ~$2..$3~ we get a much nicer table! Perfect, right?
+
+
+#+begin_src org
+| ITEM    | COST | PRICE |
+|---------+------+-------|
+| Bike    |   50 |   100 |
+| Sword   |   20 |    35 |
+| Drill   |   30 |    60 |
+| Cooler  |   10 |    70 |
+| TV      |   50 |    40 |
+| Blender |   25 |    45 |
+| Boots   |   20 |    20 |
+|---------+------+-------|
+|         |  205 |   370 |
+#+TBLFM: @>$2..$3=vsum(@2..@-1)
+#+end_src
+
+Everything should be great unless we need to add another column or two.
+
+#+begin_src org
+| ITEM    | COST | PRICE | SHIPPING | MILEAGE |
+|---------+------+-------+----------+--------|
+| Bike    |   50 |   100 |        0 |     23 |
+| Sword   |   20 |    35 |       10 |     12 |
+| Drill   |   30 |    60 |        5 |     51 |
+| Cooler  |   10 |    70 |        0 |     32 |
+| TV      |   50 |    40 |       20 |     19 |
+| Blender |   25 |    45 |        0 |      9 |
+| Boots   |   20 |    20 |        0 |     38 |
+|---------+------+-------+----------+--------|
+|         |  205 |   370 |          |        |
+,#+TBLFM: @>$2..$3=vsum(@2..@-1)
+#+end_src
+
+Well that's not going to work. Now we need to make the amount of columns dynamic too. We can achieve this by replacing the previous bound on the output of ~$3~ with ~$>~, the "last column" operator. Now it doesn't matter how many columns we add in the future, it will just work.
+
+#+begin_src org
+| ITEM    | COST | PRICE | SHIPPING | MILEAGE |
+|---------+------+-------+----------+--------|
+| Bike    |   50 |   100 |        0 |     23 |
+| Sword   |   20 |    35 |       10 |     12 |
+| Drill   |   30 |    60 |        5 |     51 |
+| Cooler  |   10 |    70 |        0 |     32 |
+| TV      |   50 |    40 |       20 |     19 |
+| Blender |   25 |    45 |        0 |      9 |
+| Boots   |   20 |    20 |        0 |     38 |
+|---------+------+-------+----------+--------|
+|         |  205 |   370 |       35 |    184 |
+#+TBLFM: @>$2..$>=vsum(@2..@-1)
+#+end_src
+
 
 ** Summing a Row
+
+Let's use the previous table and calculate who had the most yards total.
+
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
+|----------------+------+---------------+---------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |
+| Josh Allen     | 63.6 |          3731 |           531 |
+| Jayden Daniels | 69.4 |          3530 |           864 |
+|                |      |         12327 |               |
 
 
 * Simple Formulas 
