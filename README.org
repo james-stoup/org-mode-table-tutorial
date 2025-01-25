@@ -24,7 +24,7 @@ Create a formula by adding this to be end of any table ~#+TBLFM: <insert formula
 
 Here is a simple example. The formula should be read as "column 2 equals column 1 multiplied by 3"
 
-#+begin_src 
+#+begin_src org
 | 1 |  3 |
 | 2 |  6 |
 | 3 |  9 |
@@ -33,8 +33,7 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 #+TBLFM: $2=$1*3
 #+end_src
 
-
-
+This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 * Common Tasks
 
@@ -43,6 +42,7 @@ Let's assume that you are keeping track of books you wish to read in a table. Yo
 
 A naive attempt would be to set the value of the first column equal to number of the row. That produces this output:
 
+#+begin_src org
 | 1 | BOOKS             | READ? |
 | 2 | IT                | yes   |
 | 3 | The Hobbit        | yes   |
@@ -50,6 +50,7 @@ A naive attempt would be to set the value of the first column equal to number of
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
 #+tblfm: $1=@#
+#+end_src
 
 And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding ~|--~ to the second line and hitting the ~tab~ key. 
 
