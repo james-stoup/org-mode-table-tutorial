@@ -3,7 +3,7 @@
 #+DATE: <2025-01-23 Thu>
 
 * Welcome to Table Madness 
-Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
+Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 * Org Table Basics 
 If you haven't already, check out the [[https://orgmode.org/worg/org-tutorials/tables.html][offical Org Mode Tables documentation]] to get a good overview of how tables work. 
@@ -36,9 +36,19 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 * Common Tasks
+There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 ** Auto Incrementing
 Let's assume that you are keeping track of books you wish to read in a table. You want to record the book's name, whether or not you've read it, and you want a running count of the books in the table. Of course you could manually enter 1,2,3,etc. but that is tedious. A better way is to have a formula to automatically generate the indexes.
+
+#+begin_src org
+|   | BOOKS             | READ? |
+|   | IT                | yes   |
+|   | The Hobbit        | yes   |
+|   | The Black Company | yes   |
+|   | Salem's Lot       | no    |
+|   | Leaves of grass   | no    |
+#+end_src
 
 A naive attempt would be to set the value of the first column equal to number of the row. That produces this output:
 
@@ -49,7 +59,7 @@ A naive attempt would be to set the value of the first column equal to number of
 | 4 | The Black Company | yes   |
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
-#+tblfm: $1=@#
+#+TBLFM: $1=@#
 #+end_src
 
 And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding ~|--~ to the second line and hitting the ~tab~ key. 
@@ -62,7 +72,7 @@ And while that works, that isn't really want we want. Having the first index sta
 | 4 | The Black Company | yes   |
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
-#+tblfm: $1=@#
+#+TBLFM: $1=@#
 #+end_src
 
 This is looking better! The formula is smart enough to know that we don't want to include something before the separator. However, it still isn't correct. Even though it didn't show the first value, it still incremented it, which leaves our starting value at 2. We can do better. Modify the formula to subtract one from each value to produce the result we want.
@@ -75,11 +85,11 @@ This is looking better! The formula is smart enough to know that we don't want t
 | 3 | The Black Company | yes   |
 | 4 | Salem's Lot       | no    |
 | 5 | Leaves of grass   | no    |
-#+tblfm: $1=@#-1
+#+TBLFM: $1=@#-1
 #+end_src
 
 ** Sorting By Column
-It is often very useful to sort a table by a column. Take the table we have below. 
+It is often very useful to sort a table by a column. Take the table we have below. It contains a list of NFL QB stats. 
 
 #+begin_src org
 | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
@@ -167,7 +177,9 @@ The formula still wants to write the value into the 7th row, however the 7th row
 #+TBLFM: @>$2=vsum(@2..@6)
 #+end_src
 
-The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with ~@2..@6~ which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be ~@-1~ so that the correct values are used. Now we have a much more usable formula for calculating costs. What we need now is a formula for summing up the ~PRICE~ column. We could just create another formula line, increment a column value, and then execute both lines, but there is a cleaner solution. Let's tell org mode to sum up all the columns!
+The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with ~@2..@6~ which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be ~@-1~ so that the correct values are used. Now we have a much more usable formula for calculating costs.
+
+What we need now is a formula for summing up the ~PRICE~ column. We could just create another formula line, increment a column value, and then execute both lines, but there is a cleaner solution. Let's tell org mode to sum up all the columns!
 
 
 #+begin_src org
@@ -254,21 +266,83 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 #+TBLFM: @>$2..$>=vsum(@2..@-1)
 #+end_src
 
+Doesn't that look much better?
 
 ** Summing a Row
+Now that we know how to sum up column data we can move on to rows. Let's use the previous table of NFL QBs and calculate who had the most yards total.
 
-Let's use the previous table and calculate who had the most yards total.
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+|----------------+------+---------------+---------------+-------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
+| Josh Allen     | 63.6 |          3731 |           531 |        4262 |
+| Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
+#+TBLFM: @2$5=@2$3+@2$4
+#+TBLFM: @3$5=@3$3+@3$4
+#+TBLFM: @4$5=@4$3+@4$4
+#+TBLFM: @5$5=@5$3+@5$4
+#+end_src
 
-| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
-|----------------+------+---------------+---------------|
-| Joe Burrow     | 69.8 |          4641 |           202 |
-| Lamar Jackson  | 67.9 |          3955 |           852 |
-| Josh Allen     | 63.6 |          3731 |           531 |
-| Jayden Daniels | 69.4 |          3530 |           864 |
-|                |      |         12327 |               |
+Perfect! It only took four different formulas, all with nearly identical values, executed four times, to produce what we want. So maybe this isn't the most efficient approach, but it does work. Sort of. Fine, let's try to make it better. Let's start by getting rid of the duplication. First, we need stop manually entering the output bounds. Just designate the 5th column to be the output.
+
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+|----------------+------+---------------+---------------+-------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |        4843 |
+| Josh Allen     | 63.6 |          3731 |           531 |        4843 |
+| Jayden Daniels | 69.4 |          3530 |           864 |        4843 |
+#+TBLFM: $5=@2$3+@2$4
+#+end_src
+
+That is certainly simpler, but now all the output values are the same. Since we are calculating the output for each row, we can get rid of the row specifiers in the input. Let's try that and see how that looks.
+
+#+begin_src org
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+|----------------+------+---------------+---------------+-------------|
+| Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
+| Josh Allen     | 63.6 |          3731 |           531 |        4262 |
+| Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
+#+TBLFM: $5=$3+$4
+#+end_src
+
+Much better! Let's add some more columns. 
+
+#+begin_src org
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+| Joe Burrow     | 69.8 |          4641 |           202 |        4843 |          42 |           2 |           |
+| Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |          39 |           4 |           |
+| Josh Allen     | 63.6 |          3731 |           531 |        4262 |          28 |          12 |           |
+| Jayden Daniels | 69.4 |          3530 |           864 |        4394 |          25 |           6 |           |
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+,#+TBLFM: $5=$3+$4
+#+end_src
+
+Now that we have each QBs passing and rushing TDs, we need to calculate their total TDs.
+
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+| PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+| Joe Burrow     | 69.8 |          4641 |           202 |        4843 |          42 |           2 |        44 |
+| Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |          39 |           4 |        43 |
+| Josh Allen     | 63.6 |          3731 |           531 |        4262 |          28 |          12 |        40 |
+| Jayden Daniels | 69.4 |          3530 |           864 |        4394 |          25 |           6 |        31 |
+|----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+#+TBLFM: $5=$3+$4
+#+TBLFM: $8=$6+$7
+
+These two formulas could be written on one line like this:
+
+~#+TBLFM: $5=$3+$4 :: $8=$6+$7~
+
+However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-* Simple Formulas 
+* Formulas Using Built-In Functions 
 
 ** Computations on Multiple Cells
 Here is a simple enough task. The field marked ~AVERAGE GRADE~ should contain an average of the 3 tests and the final exam grades. The ~CLASS GRADE~ is computed similarly but the final exam is now weighted in respect to the other grades. To generate the averages go to the first formula and execute ~C-c C-c~. To generate the class grade, do the same thing on the second formula.

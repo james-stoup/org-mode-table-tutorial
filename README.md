@@ -1,38 +1,38 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#org8e635e9)
-2.  [Org Table Basics](#org5ff5e89)
-    1.  [Identifying Table Cells](#org2cbf889)
-    2.  [Creating Formulas](#orgcb3e3a6)
-3.  [Common Tasks](#org4daad45)
-    1.  [Auto Incrementing](#org4041e9b)
-    2.  [Sorting By Column](#orgf31d627)
-    3.  [Summing a Column](#orgd15118f)
-    4.  [Summing a Row](#org6524386)
-4.  [Simple Formulas](#orga98c31e)
-    1.  [Computations on Multiple Cells](#orgcae1c52)
-    2.  [Averaging Values](#orgbe98dec)
-5.  [Complex Formulas](#orgad04d85)
-6.  [Trickery, Magic, and Other Hacks](#org1ca94a2)
+1.  [Welcome to Table Madness](#org94f7997)
+2.  [Org Table Basics](#org89fc7cf)
+    1.  [Identifying Table Cells](#org3ee4001)
+    2.  [Creating Formulas](#org9db9e2c)
+3.  [Common Tasks](#orge116553)
+    1.  [Auto Incrementing](#orgde22778)
+    2.  [Sorting By Column](#orgb817e4f)
+    3.  [Summing a Column](#orgb3c5309)
+    4.  [Summing a Row](#org80e59bb)
+4.  [Formulas Using Built-In Functions](#orgc0a5819)
+    1.  [Computations on Multiple Cells](#orga8be57a)
+    2.  [Averaging Values](#org8428bfe)
+5.  [Complex Formulas](#org227d63a)
+6.  [Trickery, Magic, and Other Hacks](#org958bf8a)
 
 
 
-<a id="org8e635e9"></a>
+<a id="org94f7997"></a>
 
 # Welcome to Table Madness
 
-Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
+Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="org5ff5e89"></a>
+<a id="org89fc7cf"></a>
 
 # Org Table Basics
 
 If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
 
 
-<a id="org2cbf889"></a>
+<a id="org3ee4001"></a>
 
 ## Identifying Table Cells
 
@@ -72,7 +72,7 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 </table>
 
 
-<a id="orgcb3e3a6"></a>
+<a id="org9db9e2c"></a>
 
 ## Creating Formulas
 
@@ -90,16 +90,25 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 
-<a id="org4daad45"></a>
+<a id="orge116553"></a>
 
 # Common Tasks
 
+There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
-<a id="org4041e9b"></a>
+
+<a id="orgde22778"></a>
 
 ## Auto Incrementing
 
 Let's assume that you are keeping track of books you wish to read in a table. You want to record the book's name, whether or not you've read it, and you want a running count of the books in the table. Of course you could manually enter 1,2,3,etc. but that is tedious. A better way is to have a formula to automatically generate the indexes.
+
+    |   | BOOKS             | READ? |
+    |   | IT                | yes   |
+    |   | The Hobbit        | yes   |
+    |   | The Black Company | yes   |
+    |   | Salem's Lot       | no    |
+    |   | Leaves of grass   | no    |
 
 A naive attempt would be to set the value of the first column equal to number of the row. That produces this output:
 
@@ -109,7 +118,7 @@ A naive attempt would be to set the value of the first column equal to number of
     | 4 | The Black Company | yes   |
     | 5 | Salem's Lot       | no    |
     | 6 | Leaves of grass   | no    |
-    #+tblfm: $1=@#
+    #+TBLFM: $1=@#
 
 And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding `|--` to the second line and hitting the `tab` key. 
 
@@ -120,7 +129,7 @@ And while that works, that isn't really want we want. Having the first index sta
     | 4 | The Black Company | yes   |
     | 5 | Salem's Lot       | no    |
     | 6 | Leaves of grass   | no    |
-    #+tblfm: $1=@#
+    #+TBLFM: $1=@#
 
 This is looking better! The formula is smart enough to know that we don't want to include something before the separator. However, it still isn't correct. Even though it didn't show the first value, it still incremented it, which leaves our starting value at 2. We can do better. Modify the formula to subtract one from each value to produce the result we want.
 
@@ -131,14 +140,14 @@ This is looking better! The formula is smart enough to know that we don't want t
     | 3 | The Black Company | yes   |
     | 4 | Salem's Lot       | no    |
     | 5 | Leaves of grass   | no    |
-    #+tblfm: $1=@#-1
+    #+TBLFM: $1=@#-1
 
 
-<a id="orgf31d627"></a>
+<a id="orgb817e4f"></a>
 
 ## Sorting By Column
 
-It is often very useful to sort a table by a column. Take the table we have below. 
+It is often very useful to sort a table by a column. Take the table we have below. It contains a list of NFL QB stats. 
 
     | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
     |----------------+------+---------------+---------------|
@@ -172,7 +181,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="orgd15118f"></a>
+<a id="orgb3c5309"></a>
 
 ## Summing a Column
 
@@ -218,7 +227,9 @@ The formula still wants to write the value into the 7th row, however the 7th row
     |         |  160 |       |
     #+TBLFM: @>$2=vsum(@2..@6)
 
-The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with `@2..@6` which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be `@-1` so that the correct values are used. Now we have a much more usable formula for calculating costs. What we need now is a formula for summing up the `PRICE` column. We could just create another formula line, increment a column value, and then execute both lines, but there is a cleaner solution. Let's tell org mode to sum up all the columns!
+The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with `@2..@6` which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be `@-1` so that the correct values are used. Now we have a much more usable formula for calculating costs.
+
+What we need now is a formula for summing up the `PRICE` column. We could just create another formula line, increment a column value, and then execute both lines, but there is a cleaner solution. Let's tell org mode to sum up all the columns!
 
     | ITEM    | COST | PRICE |
     |---------+------+-------|
@@ -293,18 +304,73 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
     |         |  205 |   370 |       35 |    184 |
     #+TBLFM: @>$2..$>=vsum(@2..@-1)
 
+Doesn't that look much better?
 
-<a id="org6524386"></a>
+
+<a id="org80e59bb"></a>
 
 ## Summing a Row
 
-Let's use the previous table and calculate who had the most yards total.
+Now that we know how to sum up column data we can move on to rows. Let's use the previous table of NFL QBs and calculate who had the most yards total.
+
+    | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+    |----------------+------+---------------+---------------+-------------|
+    | Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+    | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
+    | Josh Allen     | 63.6 |          3731 |           531 |        4262 |
+    | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
+    #+TBLFM: @2$5=@2$3+@2$4
+    #+TBLFM: @3$5=@3$3+@3$4
+    #+TBLFM: @4$5=@4$3+@4$4
+    #+TBLFM: @5$5=@5$3+@5$4
+
+Perfect! It only took four different formulas, all with nearly identical values, executed four times, to produce what we want. So maybe this isn't the most efficient approach, but it does work. Sort of. Fine, let's try to make it better. Let's start by getting rid of the duplication. First, we need stop manually entering the output bounds. Just designate the 5th column to be the output.
+
+    | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+    |----------------+------+---------------+---------------+-------------|
+    | Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+    | Lamar Jackson  | 67.9 |          3955 |           852 |        4843 |
+    | Josh Allen     | 63.6 |          3731 |           531 |        4843 |
+    | Jayden Daniels | 69.4 |          3530 |           864 |        4843 |
+    #+TBLFM: $5=@2$3+@2$4
+
+That is certainly simpler, but now all the output values are the same. Since we are calculating the output for each row, we can get rid of the row specifiers in the input. Let's try that and see how that looks.
+
+    | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS |
+    |----------------+------+---------------+---------------+-------------|
+    | Joe Burrow     | 69.8 |          4641 |           202 |        4843 |
+    | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
+    | Josh Allen     | 63.6 |          3731 |           531 |        4262 |
+    | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
+    #+TBLFM: $5=$3+$4
+
+Much better! Let's add some more columns. 
+
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    | Joe Burrow     | 69.8 |          4641 |           202 |        4843 |          42 |           2 |           |
+    | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |          39 |           4 |           |
+    | Josh Allen     | 63.6 |          3731 |           531 |        4262 |          28 |          12 |           |
+    | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |          25 |           6 |           |
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    #+TBLFM: $5=$3+$4
+
+Now that we have each QBs passing and rushing TDs, we need to calculate their total TDs.
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
 <col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
 
 <col  class="org-right" />
 
@@ -318,6 +384,10 @@ Let's use the previous table and calculate who had the most yards total.
 <th scope="col" class="org-right">CMP%</th>
 <th scope="col" class="org-right">PASSING YARDS</th>
 <th scope="col" class="org-right">RUSHING YARDS</th>
+<th scope="col" class="org-right">TOTAL YARDS</th>
+<th scope="col" class="org-right">PASSING TDs</th>
+<th scope="col" class="org-right">RUSHING TDs</th>
+<th scope="col" class="org-right">TOTAL TDs</th>
 </tr>
 </thead>
 
@@ -327,6 +397,10 @@ Let's use the previous table and calculate who had the most yards total.
 <td class="org-right">69.8</td>
 <td class="org-right">4641</td>
 <td class="org-right">202</td>
+<td class="org-right">4843</td>
+<td class="org-right">42</td>
+<td class="org-right">2</td>
+<td class="org-right">44</td>
 </tr>
 
 
@@ -335,6 +409,10 @@ Let's use the previous table and calculate who had the most yards total.
 <td class="org-right">67.9</td>
 <td class="org-right">3955</td>
 <td class="org-right">852</td>
+<td class="org-right">4807</td>
+<td class="org-right">39</td>
+<td class="org-right">4</td>
+<td class="org-right">43</td>
 </tr>
 
 
@@ -343,6 +421,10 @@ Let's use the previous table and calculate who had the most yards total.
 <td class="org-right">63.6</td>
 <td class="org-right">3731</td>
 <td class="org-right">531</td>
+<td class="org-right">4262</td>
+<td class="org-right">28</td>
+<td class="org-right">12</td>
+<td class="org-right">40</td>
 </tr>
 
 
@@ -351,25 +433,27 @@ Let's use the previous table and calculate who had the most yards total.
 <td class="org-right">69.4</td>
 <td class="org-right">3530</td>
 <td class="org-right">864</td>
-</tr>
-
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-right">&#xa0;</td>
-<td class="org-right">12327</td>
-<td class="org-right">&#xa0;</td>
+<td class="org-right">4394</td>
+<td class="org-right">25</td>
+<td class="org-right">6</td>
+<td class="org-right">31</td>
 </tr>
 </tbody>
 </table>
 
+These two formulas could be written on one line like this:
 
-<a id="orga98c31e"></a>
+`#+TBLFM: $5=$3+$4 :: $8=$6+$7`
 
-# Simple Formulas
+However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="orgcae1c52"></a>
+<a id="orgc0a5819"></a>
+
+# Formulas Using Built-In Functions
+
+
+<a id="orga8be57a"></a>
 
 ## Computations on Multiple Cells
 
@@ -452,17 +536,17 @@ Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an
 </table>
 
 
-<a id="orgbe98dec"></a>
+<a id="org8428bfe"></a>
 
 ## Averaging Values
 
 
-<a id="orgad04d85"></a>
+<a id="org227d63a"></a>
 
 # Complex Formulas
 
 
-<a id="org1ca94a2"></a>
+<a id="org958bf8a"></a>
 
 # Trickery, Magic, and Other Hacks
 
