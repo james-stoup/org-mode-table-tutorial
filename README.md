@@ -1,38 +1,41 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#org2441e93)
-2.  [Org Table Basics](#org273cfd0)
-    1.  [Identifying Table Cells](#org5f51c08)
-    2.  [Creating Formulas](#org02dd957)
-3.  [Common Tasks](#org9c2f981)
-    1.  [Auto Incrementing](#org5c2be03)
-    2.  [Sorting By Column](#orgac88b09)
-    3.  [Summing a Column](#orgbf3ce49)
-    4.  [Summing a Row](#orgdc11206)
-    5.  [Using Horizontal Separators](#org3bfb7cb)
-4.  [Sums, Averages, and Other Transforms](#orge3f7ad8)
-    1.  [Averages](#org10d815d)
-    2.  [Mean, Median, and Standard Deviation](#org02bb269)
-5.  [Trickery, Magic, and Other Hacks](#org71f5c09)
+1.  [Welcome to Table Madness](#org6367304)
+2.  [Org Table Basics](#orgbacecf2)
+    1.  [Identifying Table Cells](#orga1f8064)
+    2.  [Creating Formulas](#org3269410)
+3.  [Common Tasks](#org83065a3)
+    1.  [Auto Incrementing](#orgc9d4725)
+    2.  [Sorting By Column](#orgb035dd5)
+    3.  [Summing a Column](#org2cff011)
+    4.  [Summing a Row](#org3ef2ce0)
+    5.  [Using Horizontal Separators](#org8eb5a45)
+4.  [Sums, Averages, and Other Transforms](#org312dd1b)
+    1.  [Averages](#org0066296)
+    2.  [Mean, Median, and Standard Deviation](#orgfe7ace3)
+5.  [Trickery, Magic, and Other Hacks](#orgd418dec)
+    1.  [Formatting Numbers](#org612d168)
+    2.  [Clearing Cells and Random Values](#orgf652975)
+    3.  [Empty Cells](#orgf00be82)
 
 
 
-<a id="org2441e93"></a>
+<a id="org6367304"></a>
 
 # Welcome to Table Madness
 
 Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="org273cfd0"></a>
+<a id="orgbacecf2"></a>
 
 # Org Table Basics
 
 If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
 
 
-<a id="org5f51c08"></a>
+<a id="orga1f8064"></a>
 
 ## Identifying Table Cells
 
@@ -72,11 +75,11 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 </table>
 
 
-<a id="org02dd957"></a>
+<a id="org3269410"></a>
 
 ## Creating Formulas
 
-Create a formula by adding this to be end of any table `,#+TBLFM: <insert formula here>`
+Create a formula by adding this to be end of any table `#+TBLFM: <insert formula here>`
 
 Here is a simple example. The formula should be read as "column 2 equals column 1 multiplied by 3"
 
@@ -90,14 +93,14 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 
-<a id="org9c2f981"></a>
+<a id="org83065a3"></a>
 
 # Common Tasks
 
 There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 
-<a id="org5c2be03"></a>
+<a id="orgc9d4725"></a>
 
 ## Auto Incrementing
 
@@ -143,7 +146,7 @@ This is looking better! The formula is smart enough to know that we don't want t
     #+TBLFM: $1=@#-1
 
 
-<a id="orgac88b09"></a>
+<a id="orgb035dd5"></a>
 
 ## Sorting By Column
 
@@ -181,7 +184,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="orgbf3ce49"></a>
+<a id="org2cff011"></a>
 
 ## Summing a Column
 
@@ -307,7 +310,7 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 Doesn't that look much better?
 
 
-<a id="orgdc11206"></a>
+<a id="org3ef2ce0"></a>
 
 ## Summing a Row
 
@@ -371,12 +374,12 @@ Now that we have each QBs passing and rushing TDs, we need to calculate their to
 
 These two formulas could be written on one line like this:
 
-`,#+TBLFM: $5=$3+$4 :: $8=$6+$7`
+`#+TBLFM: $5=$3+$4 :: $8=$6+$7`
 
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="org3bfb7cb"></a>
+<a id="org8eb5a45"></a>
 
 ## Using Horizontal Separators
 
@@ -409,14 +412,14 @@ Horizontal lines can make your table much easier to read but they have a hidden 
     #+TBLFM: @16$2=vsum(@IIII..@IIIII)
 
 
-<a id="orge3f7ad8"></a>
+<a id="org312dd1b"></a>
 
 # Sums, Averages, and Other Transforms
 
 In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
 
 
-<a id="org10d815d"></a>
+<a id="org0066296"></a>
 
 ## Averages
 
@@ -432,30 +435,126 @@ Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an
     #+TBLFM: $7=($2+$3+$4+(2*$5))/5
 
 
-<a id="org02bb269"></a>
+<a id="orgfe7ace3"></a>
 
 ## Mean, Median, and Standard Deviation
 
+This example is trickier than the previous ones. Here we are are doing three different things in one formula. First, there are several math functions (such as `vsdev`) making their first appearance in this tutorial. Second, the output lines are being referenced with the `@>` operator. Each additional `>` references one more line above the last line. Thus `@>>>` should be read as "third line from the last line of the table". Finally, all four functions are executed at once because each is separated by a `::` operator. 
+
     |   INDEX |     VALUE |
     |---------+-----------|
-    |       1 |         3 |
-    |       2 |         1 |
-    |       3 |         1 |
+    |       1 |         1 |
+    |       2 |         2 |
+    |       3 |         4 |
     |       4 |         2 |
-    |       5 |         1 |
-    |       6 |         3 |
+    |       5 |         3 |
+    |       6 |         1 |
     |       7 |         4 |
     |       8 |         1 |
     |       9 |         5 |
     |---------+-----------|
-    |    MEAN | 2.3333333 |
+    |    MEAN | 2.5555556 |
     |  MEDIAN |         2 |
-    | STD DEV |       1.5 |
-    |     SUM |        21 |
+    | STD DEV | 1.5092309 |
+    |     SUM |        23 |
     #+TBLFM: @>$2=vsum(@I..@II) :: @>>$2=vsdev(@I..@II) :: @>>>$2=vmedian(@I..@II) :: @>>>>$2=vmean(@I..@II)
 
+There is an entire world of math libraries to discover in the Calc package, but an explanation of that far exceeds the scope of this tutorial.
 
-<a id="org71f5c09"></a>
+
+<a id="orgd418dec"></a>
 
 # Trickery, Magic, and Other Hacks
+
+This is a collection of less used formulas that, while not used as frequently, are still quite helpful in the right circumstances.
+
+
+<a id="org612d168"></a>
+
+## Formatting Numbers
+
+Let's use this table again only now we are only going to look at the standard deviation.
+
+    |   INDEX |     VALUE |
+    |---------+-----------|
+    |       1 |         1 |
+    |       2 |         2 |
+    |       3 |         4 |
+    |       4 |         2 |
+    |       5 |         3 |
+    |       6 |         1 |
+    |       7 |         4 |
+    |       8 |         1 |
+    |       9 |         5 |
+    |---------+-----------|
+    | STD DEV | 1.5092309 |
+    #+TBLFM: @>$2=vsdev(@I..@II)
+
+It would make for a prettier table if the output was but to only three decimal places. Thankfully, we can easily trim it. 
+
+    |   INDEX | VALUE |
+    |---------+-------|
+    |       1 |     1 |
+    |       2 |     2 |
+    |       3 |     4 |
+    |       4 |     2 |
+    |       5 |     3 |
+    |       6 |     1 |
+    |       7 |     4 |
+    |       8 |     1 |
+    |       9 |     5 |
+    |---------+-------|
+    |  MEDIAN |   002 |
+    | STD DEV | 1.509 |
+    #+TBLFM: @>$2=vsdev(@I..@II);%.3f :: @>>$2=vmedian(@I..@II);%.3d
+
+It works for the output of `MEDIAN` as well. By adding `;%.3d` we get a padded value of `002` instead of a single digit. While not that useful here, in other tables it could be used to make all the values look nice and symmetrical.
+
+
+<a id="orgf652975"></a>
+
+## Clearing Cells and Random Values
+
+This table has three new formulas that combine for an interesting effect. Let's look at them one at a time.
+
+The first formula, `$1=0`, simply clears everything in the first column by setting each value to 0. This is useful because it allows us to easily reset these values to a base state. By itself this isn't very useful, but becomes invaluable when combined with the next function.
+
+The second formula, `@2$1..@>>$1 = random(1000);%.3d`, creates random numbers. Here we create a random number between 1 and 1,000. Then we ensure that at least 3 digits are displayed with `;%.3d`. This formula generates random numbers that will be used as student IDs. When testing out this formula (or any similar one) you will find that it is helpful to use the previous formula to reset everything to 0 while testing out your code.
+
+The third formula, `'(length'(@I..@II))`, simply counts all the records between the two horizontal lines and returns them. This is a handy way of dealing with large tables that require a count, but don't require a column dedicated to indexes.
+
+    | STUDENT NUMBER | NAME   | TEST 1 | TEST 2 | TEST 3 | HOMEWORK | FINAL EXAM |
+    |----------------+--------+--------+--------+--------+----------+------------+
+    |            409 | Amy    |     78 |     82 |     91 |       94 |         77 |
+    |            016 | Bob    |     77 |     83 |     89 |       90 |         70 |
+    |            432 | Clara  |     84 |     88 |     99 |      100 |         80 |
+    |            869 | Dylan  |     69 |     74 |     83 |       91 |         65 |
+    |            925 | Ed     |     74 |     70 |     77 |       85 |         69 |
+    |            723 | Fiona  |     80 |     81 |     86 |       88 |         74 |
+    |            688 | Gareth |     79 |     85 |     84 |       89 |         68 |
+    |----------------+--------+--------+--------+--------+----------+------------+
+    |              7 |        |        |        |        |          |            |
+    #+TBLFM: $1=0
+    #+TBLFM: @2$1..@>>$1 = random(1000);%.3d
+    #+TBLFM: @>$1='(length'(@I..@II))
+
+
+<a id="orgf00be82"></a>
+
+## Empty Cells
+
+Continuing with our theme of a teacher checking grades, look at this table of grades. Some of the students have missing work. We need a breakdown of which students have missing assignments and how many assignments are missing. This requires a bit more magic, but essentially we are looking for empty cells (`""`) and returning lists for each record. Then we count how many empty records were found, and set that number to the value in the `MISSING` column.
+
+    | STUDENT NUMBER | NAME   | TEST 1 | TEST 2 | TEST 3 | HOMEWORK | FINAL EXAM | MISSING |
+    |----------------+--------+--------+--------+--------+----------+------------+---------|
+    |            409 | Amy    |     78 |     82 |        |       94 |            |       2 |
+    |            016 | Bob    |     77 |     83 |     89 |       90 |         70 |       0 |
+    |            432 | Clara  |     84 |     88 |     99 |      100 |         80 |       0 |
+    |            869 | Dylan  |     69 |        |     83 |       91 |         65 |       1 |
+    |            925 | Ed     |     74 |     70 |     77 |       85 |         69 |       0 |
+    |            723 | Fiona  |     80 |     81 |     86 |          |         74 |       1 |
+    |            688 | Gareth |     79 |     85 |     84 |       89 |         68 |       0 |
+    |----------------+--------+--------+--------+--------+----------+------------+---------|
+    |              7 |        |        |        |        |          |            |         |
+    #+TBLFM: @2$8..@>>$8 = '(length(org-lookup-all "" '($3..$7) nil));E
 
