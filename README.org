@@ -376,17 +376,20 @@ In previous sections all of the formulas were mostly addition combined with some
 ** Averages
 Here is a simple enough task. The field marked ~AVERAGE GRADE~ should contain an average of the 3 tests and the final exam grades. The ~CLASS GRADE~ is computed similarly but the final exam is now weighted in respect to the other grades. To generate the averages go to the first formula and execute ~C-c C-c~. To generate the class grade, do the same thing on the second formula.
 
+#+begin_src org
 | STUDENT | TEST 1 | TEST 2 | TEST 3 | FINAL EXAM | AVERAGE GRADE | CLASS GRADE |
 |---------+--------+--------+--------+------------+---------------+-------------|
 | Alice   |     89 |     93 |     75 |         77 |          83.5 |        82.2 |
 | Bob     |     78 |     99 |     69 |         80 |          81.5 |        81.2 |
 | Cathy   |     91 |     90 |     90 |         75 |          86.5 |        84.2 |
 | Doug    |     48 |     90 |     85 |         82 |         76.25 |        77.4 |
-#+TBLFM: $6=vmean($2..$5)
-#+TBLFM: $7=($2+$3+$4+(2*$5))/5
+,#+TBLFM: $6=vmean($2..$5)
+,#+TBLFM: $7=($2+$3+$4+(2*$5))/5
+#+end_src
 
 ** Mean, Median, and Standard Deviation
 
+#+begin_src org
 |   INDEX |     VALUE |
 |---------+-----------|
 |       1 |         3 |
@@ -403,7 +406,8 @@ Here is a simple enough task. The field marked ~AVERAGE GRADE~ should contain an
 |  MEDIAN |         2 |
 | STD DEV |       1.5 |
 |     SUM |        21 |
-#+TBLFM: @>$2=vsum(@I..@II) :: @>>$2=vsdev(@I..@II) :: @>>>$2=vmedian(@I..@II) :: @>>>>$2=vmean(@I..@II)
+,#+TBLFM: @>$2=vsum(@I..@II) :: @>>$2=vsdev(@I..@II) :: @>>>$2=vmedian(@I..@II) :: @>>>>$2=vmean(@I..@II)
+#+end_src
 
 
 * Trickery, Magic, and Other Hacks

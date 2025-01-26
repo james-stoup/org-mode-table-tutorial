@@ -1,38 +1,38 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#orgf5707c6)
-2.  [Org Table Basics](#org3d674d7)
-    1.  [Identifying Table Cells](#orgcfa172f)
-    2.  [Creating Formulas](#orgf390328)
-3.  [Common Tasks](#orgaa8fe98)
-    1.  [Auto Incrementing](#org13f1a5a)
-    2.  [Sorting By Column](#org9839562)
-    3.  [Summing a Column](#org70e240f)
-    4.  [Summing a Row](#org752e796)
-    5.  [Using Horizontal Separators](#orgf579c47)
-4.  [Sums, Averages, and Other Transforms](#orgeb978b2)
-    1.  [Averages](#orgf11dbde)
-    2.  [Mean, Median, and Standard Deviation](#orgd9fa9be)
-5.  [Trickery, Magic, and Other Hacks](#org9a1ac72)
+1.  [Welcome to Table Madness](#org2441e93)
+2.  [Org Table Basics](#org273cfd0)
+    1.  [Identifying Table Cells](#org5f51c08)
+    2.  [Creating Formulas](#org02dd957)
+3.  [Common Tasks](#org9c2f981)
+    1.  [Auto Incrementing](#org5c2be03)
+    2.  [Sorting By Column](#orgac88b09)
+    3.  [Summing a Column](#orgbf3ce49)
+    4.  [Summing a Row](#orgdc11206)
+    5.  [Using Horizontal Separators](#org3bfb7cb)
+4.  [Sums, Averages, and Other Transforms](#orge3f7ad8)
+    1.  [Averages](#org10d815d)
+    2.  [Mean, Median, and Standard Deviation](#org02bb269)
+5.  [Trickery, Magic, and Other Hacks](#org71f5c09)
 
 
 
-<a id="orgf5707c6"></a>
+<a id="org2441e93"></a>
 
 # Welcome to Table Madness
 
 Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="org3d674d7"></a>
+<a id="org273cfd0"></a>
 
 # Org Table Basics
 
 If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
 
 
-<a id="orgcfa172f"></a>
+<a id="org5f51c08"></a>
 
 ## Identifying Table Cells
 
@@ -72,7 +72,7 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 </table>
 
 
-<a id="orgf390328"></a>
+<a id="org02dd957"></a>
 
 ## Creating Formulas
 
@@ -90,14 +90,14 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 
-<a id="orgaa8fe98"></a>
+<a id="org9c2f981"></a>
 
 # Common Tasks
 
 There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 
-<a id="org13f1a5a"></a>
+<a id="org5c2be03"></a>
 
 ## Auto Incrementing
 
@@ -143,7 +143,7 @@ This is looking better! The formula is smart enough to know that we don't want t
     #+TBLFM: $1=@#-1
 
 
-<a id="org9839562"></a>
+<a id="orgac88b09"></a>
 
 ## Sorting By Column
 
@@ -181,7 +181,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="org70e240f"></a>
+<a id="orgbf3ce49"></a>
 
 ## Summing a Column
 
@@ -307,7 +307,7 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 Doesn't that look much better?
 
 
-<a id="org752e796"></a>
+<a id="orgdc11206"></a>
 
 ## Summing a Row
 
@@ -376,7 +376,7 @@ These two formulas could be written on one line like this:
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="orgf579c47"></a>
+<a id="org3bfb7cb"></a>
 
 ## Using Horizontal Separators
 
@@ -409,198 +409,53 @@ Horizontal lines can make your table much easier to read but they have a hidden 
     #+TBLFM: @16$2=vsum(@IIII..@IIIII)
 
 
-<a id="orgeb978b2"></a>
+<a id="orge3f7ad8"></a>
 
 # Sums, Averages, and Other Transforms
 
 In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
 
 
-<a id="orgf11dbde"></a>
+<a id="org10d815d"></a>
 
 ## Averages
 
 Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an average of the 3 tests and the final exam grades. The `CLASS GRADE` is computed similarly but the final exam is now weighted in respect to the other grades. To generate the averages go to the first formula and execute `C-c C-c`. To generate the class grade, do the same thing on the second formula.
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+    | STUDENT | TEST 1 | TEST 2 | TEST 3 | FINAL EXAM | AVERAGE GRADE | CLASS GRADE |
+    |---------+--------+--------+--------+------------+---------------+-------------|
+    | Alice   |     89 |     93 |     75 |         77 |          83.5 |        82.2 |
+    | Bob     |     78 |     99 |     69 |         80 |          81.5 |        81.2 |
+    | Cathy   |     91 |     90 |     90 |         75 |          86.5 |        84.2 |
+    | Doug    |     48 |     90 |     85 |         82 |         76.25 |        77.4 |
+    #+TBLFM: $6=vmean($2..$5)
+    #+TBLFM: $7=($2+$3+$4+(2*$5))/5
 
 
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">STUDENT</th>
-<th scope="col" class="org-right">TEST 1</th>
-<th scope="col" class="org-right">TEST 2</th>
-<th scope="col" class="org-right">TEST 3</th>
-<th scope="col" class="org-right">FINAL EXAM</th>
-<th scope="col" class="org-right">AVERAGE GRADE</th>
-<th scope="col" class="org-right">CLASS GRADE</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">Alice</td>
-<td class="org-right">89</td>
-<td class="org-right">93</td>
-<td class="org-right">75</td>
-<td class="org-right">77</td>
-<td class="org-right">83.5</td>
-<td class="org-right">82.2</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Bob</td>
-<td class="org-right">78</td>
-<td class="org-right">99</td>
-<td class="org-right">69</td>
-<td class="org-right">80</td>
-<td class="org-right">81.5</td>
-<td class="org-right">81.2</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Cathy</td>
-<td class="org-right">91</td>
-<td class="org-right">90</td>
-<td class="org-right">90</td>
-<td class="org-right">75</td>
-<td class="org-right">86.5</td>
-<td class="org-right">84.2</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Doug</td>
-<td class="org-right">48</td>
-<td class="org-right">90</td>
-<td class="org-right">85</td>
-<td class="org-right">82</td>
-<td class="org-right">76.25</td>
-<td class="org-right">77.4</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="orgd9fa9be"></a>
+<a id="org02bb269"></a>
 
 ## Mean, Median, and Standard Deviation
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+    |   INDEX |     VALUE |
+    |---------+-----------|
+    |       1 |         3 |
+    |       2 |         1 |
+    |       3 |         1 |
+    |       4 |         2 |
+    |       5 |         1 |
+    |       6 |         3 |
+    |       7 |         4 |
+    |       8 |         1 |
+    |       9 |         5 |
+    |---------+-----------|
+    |    MEAN | 2.3333333 |
+    |  MEDIAN |         2 |
+    | STD DEV |       1.5 |
+    |     SUM |        21 |
+    #+TBLFM: @>$2=vsum(@I..@II) :: @>>$2=vsdev(@I..@II) :: @>>>$2=vmedian(@I..@II) :: @>>>>$2=vmean(@I..@II)
 
 
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right">INDEX</th>
-<th scope="col" class="org-right">VALUE</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-right">1</td>
-<td class="org-right">3</td>
-</tr>
-
-
-<tr>
-<td class="org-right">2</td>
-<td class="org-right">1</td>
-</tr>
-
-
-<tr>
-<td class="org-right">3</td>
-<td class="org-right">1</td>
-</tr>
-
-
-<tr>
-<td class="org-right">4</td>
-<td class="org-right">2</td>
-</tr>
-
-
-<tr>
-<td class="org-right">5</td>
-<td class="org-right">1</td>
-</tr>
-
-
-<tr>
-<td class="org-right">6</td>
-<td class="org-right">3</td>
-</tr>
-
-
-<tr>
-<td class="org-right">7</td>
-<td class="org-right">4</td>
-</tr>
-
-
-<tr>
-<td class="org-right">8</td>
-<td class="org-right">1</td>
-</tr>
-
-
-<tr>
-<td class="org-right">9</td>
-<td class="org-right">5</td>
-</tr>
-</tbody>
-
-<tbody>
-<tr>
-<td class="org-right">MEAN</td>
-<td class="org-right">2.3333333</td>
-</tr>
-
-
-<tr>
-<td class="org-right">MEDIAN</td>
-<td class="org-right">2</td>
-</tr>
-
-
-<tr>
-<td class="org-right">STD DEV</td>
-<td class="org-right">1.5</td>
-</tr>
-
-
-<tr>
-<td class="org-right">SUM</td>
-<td class="org-right">21</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="org9a1ac72"></a>
+<a id="org71f5c09"></a>
 
 # Trickery, Magic, and Other Hacks
 
