@@ -1,41 +1,42 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#org6367304)
-2.  [Org Table Basics](#orgbacecf2)
-    1.  [Identifying Table Cells](#orga1f8064)
-    2.  [Creating Formulas](#org3269410)
-3.  [Common Tasks](#org83065a3)
-    1.  [Auto Incrementing](#orgc9d4725)
-    2.  [Sorting By Column](#orgb035dd5)
-    3.  [Summing a Column](#org2cff011)
-    4.  [Summing a Row](#org3ef2ce0)
-    5.  [Using Horizontal Separators](#org8eb5a45)
-4.  [Sums, Averages, and Other Transforms](#org312dd1b)
-    1.  [Averages](#org0066296)
-    2.  [Mean, Median, and Standard Deviation](#orgfe7ace3)
-5.  [Trickery, Magic, and Other Hacks](#orgd418dec)
-    1.  [Formatting Numbers](#org612d168)
-    2.  [Clearing Cells and Random Values](#orgf652975)
-    3.  [Empty Cells](#orgf00be82)
+1.  [Welcome to Table Madness](#org5881052)
+2.  [Org Table Basics](#org5fa10f5)
+    1.  [Identifying Table Cells](#orge021e15)
+    2.  [Creating Formulas](#org418c634)
+3.  [Common Tasks](#org639eb7b)
+    1.  [Auto Incrementing](#orgb9ded0d)
+    2.  [Sorting By Column](#orgdadd3bf)
+    3.  [Summing a Column](#org36ab4ab)
+    4.  [Summing a Row](#org00c7e0a)
+    5.  [Using Horizontal Separators](#orge6f0324)
+4.  [Sums, Averages, and Other Transforms](#orgc8e84ef)
+    1.  [Averages](#org86a8174)
+    2.  [Mean, Median, and Standard Deviation](#org9f13cb7)
+5.  [Trickery, Magic, and Other Hacks](#orgc057e09)
+    1.  [Formatting Numbers](#org9fb31bb)
+    2.  [Clearing Cells and Random Values](#org67367c5)
+    3.  [Empty Cells](#org44f233c)
+6.  [Conclusion](#org01b74da)
 
 
 
-<a id="org6367304"></a>
+<a id="org5881052"></a>
 
 # Welcome to Table Madness
 
 Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="orgbacecf2"></a>
+<a id="org5fa10f5"></a>
 
 # Org Table Basics
 
 If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
 
 
-<a id="orga1f8064"></a>
+<a id="orge021e15"></a>
 
 ## Identifying Table Cells
 
@@ -74,12 +75,14 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 </tbody>
 </table>
 
+Remember this notation, it will be everywhere in this tutorial.
 
-<a id="org3269410"></a>
+
+<a id="org418c634"></a>
 
 ## Creating Formulas
 
-Create a formula by adding this to be end of any table `#+TBLFM: <insert formula here>`
+Create a formula by adding `#+TBLFM: <insert formula here>` to the end of any table.
 
 Here is a simple example. The formula should be read as "column 2 equals column 1 multiplied by 3"
 
@@ -93,14 +96,14 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 
-<a id="org83065a3"></a>
+<a id="org639eb7b"></a>
 
 # Common Tasks
 
 There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 
-<a id="orgc9d4725"></a>
+<a id="orgb9ded0d"></a>
 
 ## Auto Incrementing
 
@@ -146,7 +149,7 @@ This is looking better! The formula is smart enough to know that we don't want t
     #+TBLFM: $1=@#-1
 
 
-<a id="orgb035dd5"></a>
+<a id="orgdadd3bf"></a>
 
 ## Sorting By Column
 
@@ -184,7 +187,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="org2cff011"></a>
+<a id="org36ab4ab"></a>
 
 ## Summing a Column
 
@@ -310,7 +313,7 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 Doesn't that look much better?
 
 
-<a id="org3ef2ce0"></a>
+<a id="org00c7e0a"></a>
 
 ## Summing a Row
 
@@ -379,7 +382,7 @@ These two formulas could be written on one line like this:
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="org8eb5a45"></a>
+<a id="orge6f0324"></a>
 
 ## Using Horizontal Separators
 
@@ -412,14 +415,14 @@ Horizontal lines can make your table much easier to read but they have a hidden 
     #+TBLFM: @16$2=vsum(@IIII..@IIIII)
 
 
-<a id="org312dd1b"></a>
+<a id="orgc8e84ef"></a>
 
 # Sums, Averages, and Other Transforms
 
 In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
 
 
-<a id="org0066296"></a>
+<a id="org86a8174"></a>
 
 ## Averages
 
@@ -435,7 +438,7 @@ Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an
     #+TBLFM: $7=($2+$3+$4+(2*$5))/5
 
 
-<a id="orgfe7ace3"></a>
+<a id="org9f13cb7"></a>
 
 ## Mean, Median, and Standard Deviation
 
@@ -462,14 +465,14 @@ This example is trickier than the previous ones. Here we are are doing three dif
 There is an entire world of math libraries to discover in the Calc package, but an explanation of that far exceeds the scope of this tutorial.
 
 
-<a id="orgd418dec"></a>
+<a id="orgc057e09"></a>
 
 # Trickery, Magic, and Other Hacks
 
 This is a collection of less used formulas that, while not used as frequently, are still quite helpful in the right circumstances.
 
 
-<a id="org612d168"></a>
+<a id="org9fb31bb"></a>
 
 ## Formatting Numbers
 
@@ -511,7 +514,7 @@ It would make for a prettier table if the output was but to only three decimal p
 It works for the output of `MEDIAN` as well. By adding `;%.3d` we get a padded value of `002` instead of a single digit. While not that useful here, in other tables it could be used to make all the values look nice and symmetrical.
 
 
-<a id="orgf652975"></a>
+<a id="org67367c5"></a>
 
 ## Clearing Cells and Random Values
 
@@ -539,7 +542,7 @@ The third formula, `'(length'(@I..@II))`, simply counts all the records between 
     #+TBLFM: @>$1='(length'(@I..@II))
 
 
-<a id="orgf00be82"></a>
+<a id="org44f233c"></a>
 
 ## Empty Cells
 
@@ -557,4 +560,11 @@ Continuing with our theme of a teacher checking grades, look at this table of gr
     |----------------+--------+--------+--------+--------+----------+------------+---------|
     |              7 |        |        |        |        |          |            |         |
     #+TBLFM: @2$8..@>>$8 = '(length(org-lookup-all "" '($3..$7) nil));E
+
+
+<a id="org01b74da"></a>
+
+# Conclusion
+
+Congratulations, you are now a master manipulator of org tables. The world is your oyster. Go forth and live your best life, Excel free!
 
