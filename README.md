@@ -1,38 +1,38 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#org94f7997)
-2.  [Org Table Basics](#org89fc7cf)
-    1.  [Identifying Table Cells](#org3ee4001)
-    2.  [Creating Formulas](#org9db9e2c)
-3.  [Common Tasks](#orge116553)
-    1.  [Auto Incrementing](#orgde22778)
-    2.  [Sorting By Column](#orgb817e4f)
-    3.  [Summing a Column](#orgb3c5309)
-    4.  [Summing a Row](#org80e59bb)
-4.  [Formulas Using Built-In Functions](#orgc0a5819)
-    1.  [Computations on Multiple Cells](#orga8be57a)
-    2.  [Averaging Values](#org8428bfe)
-5.  [Complex Formulas](#org227d63a)
-6.  [Trickery, Magic, and Other Hacks](#org958bf8a)
+1.  [Welcome to Table Madness](#orgf5707c6)
+2.  [Org Table Basics](#org3d674d7)
+    1.  [Identifying Table Cells](#orgcfa172f)
+    2.  [Creating Formulas](#orgf390328)
+3.  [Common Tasks](#orgaa8fe98)
+    1.  [Auto Incrementing](#org13f1a5a)
+    2.  [Sorting By Column](#org9839562)
+    3.  [Summing a Column](#org70e240f)
+    4.  [Summing a Row](#org752e796)
+    5.  [Using Horizontal Separators](#orgf579c47)
+4.  [Sums, Averages, and Other Transforms](#orgeb978b2)
+    1.  [Averages](#orgf11dbde)
+    2.  [Mean, Median, and Standard Deviation](#orgd9fa9be)
+5.  [Trickery, Magic, and Other Hacks](#org9a1ac72)
 
 
 
-<a id="org94f7997"></a>
+<a id="orgf5707c6"></a>
 
 # Welcome to Table Madness
 
 Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="org89fc7cf"></a>
+<a id="org3d674d7"></a>
 
 # Org Table Basics
 
 If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
 
 
-<a id="org3ee4001"></a>
+<a id="orgcfa172f"></a>
 
 ## Identifying Table Cells
 
@@ -72,11 +72,11 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 </table>
 
 
-<a id="org9db9e2c"></a>
+<a id="orgf390328"></a>
 
 ## Creating Formulas
 
-Create a formula by adding this to be end of any table `#+TBLFM: <insert formula here>`
+Create a formula by adding this to be end of any table `,#+TBLFM: <insert formula here>`
 
 Here is a simple example. The formula should be read as "column 2 equals column 1 multiplied by 3"
 
@@ -90,14 +90,14 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
 
 
-<a id="orge116553"></a>
+<a id="orgaa8fe98"></a>
 
 # Common Tasks
 
 There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 
-<a id="orgde22778"></a>
+<a id="org13f1a5a"></a>
 
 ## Auto Incrementing
 
@@ -143,7 +143,7 @@ This is looking better! The formula is smart enough to know that we don't want t
     #+TBLFM: $1=@#-1
 
 
-<a id="orgb817e4f"></a>
+<a id="org9839562"></a>
 
 ## Sorting By Column
 
@@ -181,7 +181,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="orgb3c5309"></a>
+<a id="org70e240f"></a>
 
 ## Summing a Column
 
@@ -307,7 +307,7 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 Doesn't that look much better?
 
 
-<a id="org80e59bb"></a>
+<a id="org752e796"></a>
 
 ## Summing a Row
 
@@ -358,104 +358,67 @@ Much better! Let's add some more columns.
 
 Now that we have each QBs passing and rushing TDs, we need to calculate their total TDs.
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">PLAYER</th>
-<th scope="col" class="org-right">CMP%</th>
-<th scope="col" class="org-right">PASSING YARDS</th>
-<th scope="col" class="org-right">RUSHING YARDS</th>
-<th scope="col" class="org-right">TOTAL YARDS</th>
-<th scope="col" class="org-right">PASSING TDs</th>
-<th scope="col" class="org-right">RUSHING TDs</th>
-<th scope="col" class="org-right">TOTAL TDs</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">Joe Burrow</td>
-<td class="org-right">69.8</td>
-<td class="org-right">4641</td>
-<td class="org-right">202</td>
-<td class="org-right">4843</td>
-<td class="org-right">42</td>
-<td class="org-right">2</td>
-<td class="org-right">44</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Lamar Jackson</td>
-<td class="org-right">67.9</td>
-<td class="org-right">3955</td>
-<td class="org-right">852</td>
-<td class="org-right">4807</td>
-<td class="org-right">39</td>
-<td class="org-right">4</td>
-<td class="org-right">43</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Josh Allen</td>
-<td class="org-right">63.6</td>
-<td class="org-right">3731</td>
-<td class="org-right">531</td>
-<td class="org-right">4262</td>
-<td class="org-right">28</td>
-<td class="org-right">12</td>
-<td class="org-right">40</td>
-</tr>
-
-
-<tr>
-<td class="org-left">Jayden Daniels</td>
-<td class="org-right">69.4</td>
-<td class="org-right">3530</td>
-<td class="org-right">864</td>
-<td class="org-right">4394</td>
-<td class="org-right">25</td>
-<td class="org-right">6</td>
-<td class="org-right">31</td>
-</tr>
-</tbody>
-</table>
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    | Joe Burrow     | 69.8 |          4641 |           202 |        4843 |          42 |           2 |        44 |
+    | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |          39 |           4 |        43 |
+    | Josh Allen     | 63.6 |          3731 |           531 |        4262 |          28 |          12 |        40 |
+    | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |          25 |           6 |        31 |
+    |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
+    #+TBLFM: $5=$3+$4
+    #+TBLFM: $8=$6+$7
 
 These two formulas could be written on one line like this:
 
-`#+TBLFM: $5=$3+$4 :: $8=$6+$7`
+`,#+TBLFM: $5=$3+$4 :: $8=$6+$7`
 
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="orgc0a5819"></a>
+<a id="orgf579c47"></a>
 
-# Formulas Using Built-In Functions
+## Using Horizontal Separators
+
+Horizontal lines can make your table much easier to read but they have a hidden use as well. You can specify all of the values between the first and second lines using `@I..@II`. These are NOT Roman numerals, so you must put `IIIII` for the 5th horizontal line, not `V` which would be the correct Roman numeral. In the example below you have decided to host a party and are trying to tally up the costs of different types of expenses. 
+
+    | ITEM    | COST | 
+    |---------+------|
+    | rum     |   20 |
+    | gin     |   18 |
+    | beer    |   50 |
+    |---------+------|
+    | coke    |   10 |
+    | sprite  |    5 |
+    |---------+------|
+    | chips   |   10 |
+    | cookies |   20 |
+    | pizza   |   60 |
+    |---------+------|
+    | plates  |   10 |
+    | napkins |    8 |
+    | cups    |   12 |
+    |---------+------|
+    | ALCOHOL |   88 |
+    | SODA    |   15 |
+    | FOOD    |   90 |
+    | MISC    |   30 |
+    #+TBLFM: @13$2=vsum(@I..@II)
+    #+TBLFM: @14$2=vsum(@II..@III)
+    #+TBLFM: @15$2=vsum(@III..@IIII)
+    #+TBLFM: @16$2=vsum(@IIII..@IIIII)
 
 
-<a id="orga8be57a"></a>
+<a id="orgeb978b2"></a>
 
-## Computations on Multiple Cells
+# Sums, Averages, and Other Transforms
+
+In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
+
+
+<a id="orgf11dbde"></a>
+
+## Averages
 
 Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an average of the 3 tests and the final exam grades. The `CLASS GRADE` is computed similarly but the final exam is now weighted in respect to the other grades. To generate the averages go to the first formula and execute `C-c C-c`. To generate the class grade, do the same thing on the second formula.
 
@@ -536,17 +499,108 @@ Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an
 </table>
 
 
-<a id="org8428bfe"></a>
+<a id="orgd9fa9be"></a>
 
-## Averaging Values
+## Mean, Median, and Standard Deviation
 
-
-<a id="org227d63a"></a>
-
-# Complex Formulas
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
-<a id="org958bf8a"></a>
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">INDEX</th>
+<th scope="col" class="org-right">VALUE</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+</tr>
+
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
+</tr>
+
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+</tr>
+
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">2</td>
+</tr>
+
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">1</td>
+</tr>
+
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+</tr>
+
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+</tr>
+
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-right">1</td>
+</tr>
+
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-right">5</td>
+</tr>
+</tbody>
+
+<tbody>
+<tr>
+<td class="org-right">MEAN</td>
+<td class="org-right">2.3333333</td>
+</tr>
+
+
+<tr>
+<td class="org-right">MEDIAN</td>
+<td class="org-right">2</td>
+</tr>
+
+
+<tr>
+<td class="org-right">STD DEV</td>
+<td class="org-right">1.5</td>
+</tr>
+
+
+<tr>
+<td class="org-right">SUM</td>
+<td class="org-right">21</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org9a1ac72"></a>
 
 # Trickery, Magic, and Other Hacks
 

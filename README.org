@@ -8,9 +8,6 @@ Understanding Org Tables can be one of the more frustrating parts of advanced Or
 * Org Table Basics 
 If you haven't already, check out the [[https://orgmode.org/worg/org-tutorials/tables.html][offical Org Mode Tables documentation]] to get a good overview of how tables work. 
 
-
-
-
 ** Identifying Table Cells
 Org mode uses the ~@~ symbol to denote rows and the ~$~ symbol to denote columns. As you see here:
 
@@ -18,9 +15,8 @@ Org mode uses the ~@~ symbol to denote rows and the ~$~ symbol to denote columns
 | @2 $1 | @2 $2 | @2 $3 |
 | @3 $1 | @3 $2 | @3 $3 |
 
-
 ** Creating Formulas
-Create a formula by adding this to be end of any table ~#+TBLFM: <insert formula here>~
+Create a formula by adding this to be end of any table ~,#+TBLFM: <insert formula here>~
 
 Here is a simple example. The formula should be read as "column 2 equals column 1 multiplied by 3"
 
@@ -30,7 +26,7 @@ Here is a simple example. The formula should be read as "column 2 equals column 
 | 3 |  9 |
 | 4 | 12 |
 | 5 | 15 |
-#+TBLFM: $2=$1*3
+,#+TBLFM: $2=$1*3
 #+end_src
 
 This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
@@ -59,7 +55,7 @@ A naive attempt would be to set the value of the first column equal to number of
 | 4 | The Black Company | yes   |
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
-#+TBLFM: $1=@#
+,#+TBLFM: $1=@#
 #+end_src
 
 And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding ~|--~ to the second line and hitting the ~tab~ key. 
@@ -72,7 +68,7 @@ And while that works, that isn't really want we want. Having the first index sta
 | 4 | The Black Company | yes   |
 | 5 | Salem's Lot       | no    |
 | 6 | Leaves of grass   | no    |
-#+TBLFM: $1=@#
+,#+TBLFM: $1=@#
 #+end_src
 
 This is looking better! The formula is smart enough to know that we don't want to include something before the separator. However, it still isn't correct. Even though it didn't show the first value, it still incremented it, which leaves our starting value at 2. We can do better. Modify the formula to subtract one from each value to produce the result we want.
@@ -85,7 +81,7 @@ This is looking better! The formula is smart enough to know that we don't want t
 | 3 | The Black Company | yes   |
 | 4 | Salem's Lot       | no    |
 | 5 | Leaves of grass   | no    |
-#+TBLFM: $1=@#-1
+,#+TBLFM: $1=@#-1
 #+end_src
 
 ** Sorting By Column
@@ -174,7 +170,7 @@ The formula still wants to write the value into the 7th row, however the 7th row
 | Boots   |   10 |    20 |
 |---------+------+-------|
 |         |  160 |       |
-#+TBLFM: @>$2=vsum(@2..@6)
+,#+TBLFM: @>$2=vsum(@2..@6)
 #+end_src
 
 The good news is that nothing got overwritten and our sum got correctly added to the last line. The bad news is that our new values aren't being added. The output is dynamic, but the input is locked in at the first four values with ~@2..@6~ which doesn't work as our table expands. We need the input to be dynamic too. To achieve that we can change the lower bound to be ~@-1~ so that the correct values are used. Now we have a much more usable formula for calculating costs.
@@ -194,7 +190,7 @@ What we need now is a formula for summing up the ~PRICE~ column. We could just c
 | Boots   |   20 |    20 |
 |---------+------+-------|
 |         |  205 |       |
-#+TBLFM: @>$2=vsum(@2..@-1)
+,#+TBLFM: @>$2=vsum(@2..@-1)
 #+end_src
 
 By using the ~@>~ operator we can tell org mode to reference the entire last row. Let's see how this works.
@@ -211,7 +207,7 @@ By using the ~@>~ operator we can tell org mode to reference the entire last row
 | Boots                                                |   20 |    20 |
 |------------------------------------------------------+------+-------|
 | Bike + Sword + Drill + Cooler + TV + Blender + Boots |  205 |   370 |
-#+TBLFM: @>=vsum(@2..@-1)
+,#+TBLFM: @>=vsum(@2..@-1)
 #+end_src
 
 Hmmmm. This is not exactly what we want. Unintended consequences are the hallmark of org tables, thankfully this is an easy fix. By restricting the output to the range ~$2..$3~ we get a much nicer table! Perfect, right?
@@ -229,7 +225,7 @@ Hmmmm. This is not exactly what we want. Unintended consequences are the hallmar
 | Boots   |   20 |    20 |
 |---------+------+-------|
 |         |  205 |   370 |
-#+TBLFM: @>$2..$3=vsum(@2..@-1)
+,#+TBLFM: @>$2..$3=vsum(@2..@-1)
 #+end_src
 
 Everything should be great unless we need to add another column or two.
@@ -263,7 +259,7 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
 | Boots   |   20 |    20 |        0 |     38 |
 |---------+------+-------+----------+--------|
 |         |  205 |   370 |       35 |    184 |
-#+TBLFM: @>$2..$>=vsum(@2..@-1)
+,#+TBLFM: @>$2..$>=vsum(@2..@-1)
 #+end_src
 
 Doesn't that look much better?
@@ -278,10 +274,10 @@ Now that we know how to sum up column data we can move on to rows. Let's use the
 | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
 | Josh Allen     | 63.6 |          3731 |           531 |        4262 |
 | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
-#+TBLFM: @2$5=@2$3+@2$4
-#+TBLFM: @3$5=@3$3+@3$4
-#+TBLFM: @4$5=@4$3+@4$4
-#+TBLFM: @5$5=@5$3+@5$4
+,#+TBLFM: @2$5=@2$3+@2$4
+,#+TBLFM: @3$5=@3$3+@3$4
+,#+TBLFM: @4$5=@4$3+@4$4
+,#+TBLFM: @5$5=@5$3+@5$4
 #+end_src
 
 Perfect! It only took four different formulas, all with nearly identical values, executed four times, to produce what we want. So maybe this isn't the most efficient approach, but it does work. Sort of. Fine, let's try to make it better. Let's start by getting rid of the duplication. First, we need stop manually entering the output bounds. Just designate the 5th column to be the output.
@@ -293,7 +289,7 @@ Perfect! It only took four different formulas, all with nearly identical values,
 | Lamar Jackson  | 67.9 |          3955 |           852 |        4843 |
 | Josh Allen     | 63.6 |          3731 |           531 |        4843 |
 | Jayden Daniels | 69.4 |          3530 |           864 |        4843 |
-#+TBLFM: $5=@2$3+@2$4
+,#+TBLFM: $5=@2$3+@2$4
 #+end_src
 
 That is certainly simpler, but now all the output values are the same. Since we are calculating the output for each row, we can get rid of the row specifiers in the input. Let's try that and see how that looks.
@@ -305,7 +301,7 @@ That is certainly simpler, but now all the output values are the same. Since we 
 | Lamar Jackson  | 67.9 |          3955 |           852 |        4807 |
 | Josh Allen     | 63.6 |          3731 |           531 |        4262 |
 | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
-#+TBLFM: $5=$3+$4
+,#+TBLFM: $5=$3+$4
 #+end_src
 
 Much better! Let's add some more columns. 
@@ -324,6 +320,7 @@ Much better! Let's add some more columns.
 
 Now that we have each QBs passing and rushing TDs, we need to calculate their total TDs.
 
+#+begin_src org
 |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
 | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
 |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
@@ -332,19 +329,51 @@ Now that we have each QBs passing and rushing TDs, we need to calculate their to
 | Josh Allen     | 63.6 |          3731 |           531 |        4262 |          28 |          12 |        40 |
 | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |          25 |           6 |        31 |
 |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
-#+TBLFM: $5=$3+$4
-#+TBLFM: $8=$6+$7
+,#+TBLFM: $5=$3+$4
+,#+TBLFM: $8=$6+$7
+#+end_src
 
 These two formulas could be written on one line like this:
 
-~#+TBLFM: $5=$3+$4 :: $8=$6+$7~
+~,#+TBLFM: $5=$3+$4 :: $8=$6+$7~
 
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
+** Using Horizontal Separators
+Horizontal lines can make your table much easier to read but they have a hidden use as well. You can specify all of the values between the first and second lines using ~@I..@II~. These are NOT Roman numerals, so you must put ~IIIII~ for the 5th horizontal line, not ~V~ which would be the correct Roman numeral. In the example below you have decided to host a party and are trying to tally up the costs of different types of expenses. 
 
-* Formulas Using Built-In Functions 
+#+begin_src org
+| ITEM    | COST | 
+|---------+------|
+| rum     |   20 |
+| gin     |   18 |
+| beer    |   50 |
+|---------+------|
+| coke    |   10 |
+| sprite  |    5 |
+|---------+------|
+| chips   |   10 |
+| cookies |   20 |
+| pizza   |   60 |
+|---------+------|
+| plates  |   10 |
+| napkins |    8 |
+| cups    |   12 |
+|---------+------|
+| ALCOHOL |   88 |
+| SODA    |   15 |
+| FOOD    |   90 |
+| MISC    |   30 |
+,#+TBLFM: @13$2=vsum(@I..@II)
+,#+TBLFM: @14$2=vsum(@II..@III)
+,#+TBLFM: @15$2=vsum(@III..@IIII)
+,#+TBLFM: @16$2=vsum(@IIII..@IIIII)
+#+end_src
 
-** Computations on Multiple Cells
+* Sums, Averages, and Other Transforms
+In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
+
+** Averages
 Here is a simple enough task. The field marked ~AVERAGE GRADE~ should contain an average of the 3 tests and the final exam grades. The ~CLASS GRADE~ is computed similarly but the final exam is now weighted in respect to the other grades. To generate the averages go to the first formula and execute ~C-c C-c~. To generate the class grade, do the same thing on the second formula.
 
 | STUDENT | TEST 1 | TEST 2 | TEST 3 | FINAL EXAM | AVERAGE GRADE | CLASS GRADE |
@@ -356,12 +385,26 @@ Here is a simple enough task. The field marked ~AVERAGE GRADE~ should contain an
 #+TBLFM: $6=vmean($2..$5)
 #+TBLFM: $7=($2+$3+$4+(2*$5))/5
 
+** Mean, Median, and Standard Deviation
 
+|   INDEX |     VALUE |
+|---------+-----------|
+|       1 |         3 |
+|       2 |         1 |
+|       3 |         1 |
+|       4 |         2 |
+|       5 |         1 |
+|       6 |         3 |
+|       7 |         4 |
+|       8 |         1 |
+|       9 |         5 |
+|---------+-----------|
+|    MEAN | 2.3333333 |
+|  MEDIAN |         2 |
+| STD DEV |       1.5 |
+|     SUM |        21 |
+#+TBLFM: @>$2=vsum(@I..@II) :: @>>$2=vsdev(@I..@II) :: @>>>$2=vmedian(@I..@II) :: @>>>>$2=vmean(@I..@II)
 
-** Averaging Values 
-
-
-* Complex Formulas
 
 * Trickery, Magic, and Other Hacks
 
