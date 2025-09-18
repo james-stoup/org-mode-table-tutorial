@@ -1,42 +1,42 @@
 
 # Table of Contents
 
-1.  [Welcome to Table Madness](#org5881052)
-2.  [Org Table Basics](#org5fa10f5)
-    1.  [Identifying Table Cells](#orge021e15)
-    2.  [Creating Formulas](#org418c634)
-3.  [Common Tasks](#org639eb7b)
-    1.  [Auto Incrementing](#orgb9ded0d)
-    2.  [Sorting By Column](#orgdadd3bf)
-    3.  [Summing a Column](#org36ab4ab)
-    4.  [Summing a Row](#org00c7e0a)
-    5.  [Using Horizontal Separators](#orge6f0324)
-4.  [Sums, Averages, and Other Transforms](#orgc8e84ef)
-    1.  [Averages](#org86a8174)
-    2.  [Mean, Median, and Standard Deviation](#org9f13cb7)
-5.  [Trickery, Magic, and Other Hacks](#orgc057e09)
-    1.  [Formatting Numbers](#org9fb31bb)
-    2.  [Clearing Cells and Random Values](#org67367c5)
-    3.  [Empty Cells](#org44f233c)
-6.  [Conclusion](#org01b74da)
+1.  [Welcome to Table Madness](#orgffb6af6)
+2.  [Org Table Basics](#org517e3ed)
+    1.  [Identifying Table Cells](#orgc20da85)
+    2.  [Creating Formulas](#orgc00dfce)
+3.  [Common Tasks](#orgc51f54c)
+    1.  [Auto Incrementing](#org257fb59)
+    2.  [Sorting By Column](#orga9861b0)
+    3.  [Summing a Column](#org2acc41b)
+    4.  [Summing a Row](#org8153e36)
+    5.  [Using Horizontal Separators](#org7d9f98d)
+4.  [Sums, Averages, and Other Transforms](#org11a8b70)
+    1.  [Averages](#orgbe34f8f)
+    2.  [Mean, Median, and Standard Deviation](#org09b4ee0)
+5.  [Trickery, Magic, and Other Hacks](#org4f4240f)
+    1.  [Formatting Numbers](#org650d810)
+    2.  [Clearing Cells and Random Values](#org96bd3f9)
+    3.  [Empty Cells](#orgd8688df)
+6.  [Conclusion](#org671f051)
 
 
 
-<a id="org5881052"></a>
+<a id="orgffb6af6"></a>
 
 # Welcome to Table Madness
 
 Understanding Org Tables can be one of the more frustrating parts of advanced Org Mode usage. The concepts seem simple, but applying them to produce useful results can often be quite challenging. The devil, as they say, is in the details. The official documentation is often a bit hard to understand and teasing out complex behavior from the core rules can often leave less experienced users giving up in frustration. To make using tables easier I've created this tutorial, which serves as a huge cheat sheet for the most common operations as well as a reference for more complex formulas.
 
 
-<a id="org5fa10f5"></a>
+<a id="org517e3ed"></a>
 
 # Org Table Basics
 
-If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work. 
+If you haven't already, check out the [offical Org Mode Tables documentation](https://orgmode.org/worg/org-tutorials/tables.html) to get a good overview of how tables work.
 
 
-<a id="orge021e15"></a>
+<a id="orgc20da85"></a>
 
 ## Identifying Table Cells
 
@@ -59,13 +59,11 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 <td class="org-left">@1 $3</td>
 </tr>
 
-
 <tr>
 <td class="org-left">@2 $1</td>
 <td class="org-left">@2 $2</td>
 <td class="org-left">@2 $3</td>
 </tr>
-
 
 <tr>
 <td class="org-left">@3 $1</td>
@@ -78,7 +76,7 @@ Org mode uses the `@` symbol to denote rows and the `$` symbol to denote columns
 Remember this notation, it will be everywhere in this tutorial.
 
 
-<a id="org418c634"></a>
+<a id="orgc00dfce"></a>
 
 ## Creating Formulas
 
@@ -93,17 +91,17 @@ Here is a simple example. The formula should be read as "column 2 equals column 
     | 5 | 15 |
     #+TBLFM: $2=$1*3
 
-This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication. 
+This is as simple as an example as you will find. No headers, no complex functions, just a little bit of multiplication.
 
 
-<a id="org639eb7b"></a>
+<a id="orgc51f54c"></a>
 
 # Common Tasks
 
 There are quite a few common functions that your average user will frequently need. Numbering a list, summing up a column of numbers, etc. This section provides tables, formulas, and explanations as we walk through how to achieve the desired results.
 
 
-<a id="orgb9ded0d"></a>
+<a id="org257fb59"></a>
 
 ## Auto Incrementing
 
@@ -126,7 +124,7 @@ A naive attempt would be to set the value of the first column equal to number of
     | 6 | Leaves of grass   | no    |
     #+TBLFM: $1=@#
 
-And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding `|--` to the second line and hitting the `tab` key. 
+And while that works, that isn't really want we want. Having the first index start at the title row is not how we want this to operate. Let's add a separator by adding `|--` to the second line and hitting the `tab` key.
 
     |   | BOOKS             | READ? |
     |---+-------------------+-------|
@@ -149,11 +147,11 @@ This is looking better! The formula is smart enough to know that we don't want t
     #+TBLFM: $1=@#-1
 
 
-<a id="orgdadd3bf"></a>
+<a id="orga9861b0"></a>
 
 ## Sorting By Column
 
-It is often very useful to sort a table by a column. Take the table we have below. It contains a list of NFL QB stats. 
+It is often very useful to sort a table by a column. Take the table we have below. It contains a list of NFL QB stats.
 
     | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS |
     |----------------+------+---------------+---------------|
@@ -187,7 +185,7 @@ Which is what we wanted! How about if we wanted to sort them by `PASSING YARDS`?
 The order is reversed because we want the most yards as the first record.
 
 
-<a id="org36ab4ab"></a>
+<a id="org2acc41b"></a>
 
 ## Summing a Column
 
@@ -308,12 +306,12 @@ Well that's not going to work. Now we need to make the amount of columns dynamic
     | Boots   |   20 |    20 |        0 |     38 |
     |---------+------+-------+----------+--------|
     |         |  205 |   370 |       35 |    184 |
-    #+TBLFM: @>$2..$>=vsum(@2..@-1)
+    #+TBLFM: @>$2..@>$>=vsum(@2..@-1)
 
 Doesn't that look much better?
 
 
-<a id="org00c7e0a"></a>
+<a id="org8153e36"></a>
 
 ## Summing a Row
 
@@ -350,7 +348,7 @@ That is certainly simpler, but now all the output values are the same. Since we 
     | Jayden Daniels | 69.4 |          3530 |           864 |        4394 |
     #+TBLFM: $5=$3+$4
 
-Much better! Let's add some more columns. 
+Much better! Let's add some more columns.
 
     |----------------+------+---------------+---------------+-------------+-------------+-------------+-----------|
     | PLAYER         | CMP% | PASSING YARDS | RUSHING YARDS | TOTAL YARDS | PASSING TDs | RUSHING TDs | TOTAL TDs |
@@ -382,13 +380,13 @@ These two formulas could be written on one line like this:
 However I'm putting each formula on a different line so you can easily see the result of each call.
 
 
-<a id="orge6f0324"></a>
+<a id="org7d9f98d"></a>
 
 ## Using Horizontal Separators
 
-Horizontal lines can make your table much easier to read but they have a hidden use as well. You can specify all of the values between the first and second lines using `@I..@II`. These are NOT Roman numerals, so you must put `IIIII` for the 5th horizontal line, not `V` which would be the correct Roman numeral. In the example below you have decided to host a party and are trying to tally up the costs of different types of expenses. 
+Horizontal lines can make your table much easier to read but they have a hidden use as well. You can specify all of the values between the first and second lines using `@I..@II`. These are NOT Roman numerals, so you must put `IIIII` for the 5th horizontal line, not `V` which would be the correct Roman numeral. In the example below you have decided to host a party and are trying to tally up the costs of different types of expenses.
 
-    | ITEM    | COST | 
+    | ITEM    | COST |
     |---------+------|
     | rum     |   20 |
     | gin     |   18 |
@@ -415,14 +413,14 @@ Horizontal lines can make your table much easier to read but they have a hidden 
     #+TBLFM: @16$2=vsum(@IIII..@IIIII)
 
 
-<a id="orgc8e84ef"></a>
+<a id="org11a8b70"></a>
 
 # Sums, Averages, and Other Transforms
 
-In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode. 
+In previous sections all of the formulas were mostly addition combined with some built in operators to make referencing cells easier. In this section we are going to start using some of the math functions that come with org mode.
 
 
-<a id="org86a8174"></a>
+<a id="orgbe34f8f"></a>
 
 ## Averages
 
@@ -438,11 +436,11 @@ Here is a simple enough task. The field marked `AVERAGE GRADE` should contain an
     #+TBLFM: $7=($2+$3+$4+(2*$5))/5
 
 
-<a id="org9f13cb7"></a>
+<a id="org09b4ee0"></a>
 
 ## Mean, Median, and Standard Deviation
 
-This example is trickier than the previous ones. Here we are are doing three different things in one formula. First, there are several math functions (such as `vsdev`) making their first appearance in this tutorial. Second, the output lines are being referenced with the `@>` operator. Each additional `>` references one more line above the last line. Thus `@>>>` should be read as "third line from the last line of the table". Finally, all four functions are executed at once because each is separated by a `::` operator. 
+This example is trickier than the previous ones. Here we are are doing three different things in one formula. First, there are several math functions (such as `vsdev`) making their first appearance in this tutorial. Second, the output lines are being referenced with the `@>` operator. Each additional `>` references one more line above the last line. Thus `@>>>` should be read as "third line from the last line of the table". Finally, all four functions are executed at once because each is separated by a `::` operator.
 
     |   INDEX |     VALUE |
     |---------+-----------|
@@ -465,14 +463,14 @@ This example is trickier than the previous ones. Here we are are doing three dif
 There is an entire world of math libraries to discover in the Calc package, but an explanation of that far exceeds the scope of this tutorial.
 
 
-<a id="orgc057e09"></a>
+<a id="org4f4240f"></a>
 
 # Trickery, Magic, and Other Hacks
 
 This is a collection of less used formulas that, while not used as frequently, are still quite helpful in the right circumstances.
 
 
-<a id="org9fb31bb"></a>
+<a id="org650d810"></a>
 
 ## Formatting Numbers
 
@@ -493,7 +491,7 @@ Let's use this table again only now we are only going to look at the standard de
     | STD DEV | 1.5092309 |
     #+TBLFM: @>$2=vsdev(@I..@II)
 
-It would make for a prettier table if the output was but to only three decimal places. Thankfully, we can easily trim it. 
+It would make for a prettier table if the output was but to only three decimal places. Thankfully, we can easily trim it.
 
     |   INDEX | VALUE |
     |---------+-------|
@@ -514,7 +512,7 @@ It would make for a prettier table if the output was but to only three decimal p
 It works for the output of `MEDIAN` as well. By adding `;%.3d` we get a padded value of `002` instead of a single digit. While not that useful here, in other tables it could be used to make all the values look nice and symmetrical.
 
 
-<a id="org67367c5"></a>
+<a id="org96bd3f9"></a>
 
 ## Clearing Cells and Random Values
 
@@ -542,7 +540,7 @@ The third formula, `'(length'(@I..@II))`, simply counts all the records between 
     #+TBLFM: @>$1='(length'(@I..@II))
 
 
-<a id="org44f233c"></a>
+<a id="orgd8688df"></a>
 
 ## Empty Cells
 
@@ -562,7 +560,7 @@ Continuing with our theme of a teacher checking grades, look at this table of gr
     #+TBLFM: @2$8..@>>$8 = '(length(org-lookup-all "" '($3..$7) nil));E
 
 
-<a id="org01b74da"></a>
+<a id="org671f051"></a>
 
 # Conclusion
 
